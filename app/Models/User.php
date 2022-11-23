@@ -45,7 +45,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function setPasswordAttribute($password){
+        return $this->attributes['password'] = bcrypt($password);
+    }
+
+
     public function role(){
         return $this->belongsTo('App\Models\Role','role_id');
     }
+
+    public function photo(){
+        return $this->belongsTo('App\Models\Photo','photo_id');
+    }
+
 }
