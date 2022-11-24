@@ -15,10 +15,14 @@
             <input class="form-control" type="text" name="name" id="name">
         </div>
 
+
+
         <div class="form-group">
             <label for="email">Email</label>
             <input class="form-control" type="text" name="email" id="email">
         </div>
+
+
 
         <div class="form-group">
             <label for="role_id">Role</label>
@@ -50,7 +54,7 @@
 
 
         <div class="form-group">
-           <button class="btn btn-primary" type="submit">Create Post</button>
+           <button class="btn btn-primary" type="submit">Create User</button>
         </div>
     </form>
 
