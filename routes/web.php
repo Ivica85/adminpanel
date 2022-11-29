@@ -19,11 +19,20 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/admin',function(){
-   return view('admin.index');
-});
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::resource('admin/users','App\Http\Controllers\AdminUsersController');
+
+
+Route::group(['middleware'=>'admin'],function(){
+
+    Route::get('/admin',function(){
+        return view('admin.index');
+    })->name('admin.index');;
+
+    Route::resource('admin/users','App\Http\Controllers\AdminUsersController');
+    Route::resource('admin/posts','App\Http\Controllers\AdminPostsController');
+});
+
+

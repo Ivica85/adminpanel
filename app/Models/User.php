@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -45,9 +46,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function setPasswordAttribute($password){
-        return $this->attributes['password'] = bcrypt($password);
-    }
+
 
 
     public function role(){
@@ -57,5 +56,26 @@ class User extends Authenticatable
     public function photo(){
         return $this->belongsTo('App\Models\Photo','photo_id');
     }
+
+
+
+
+    public function isAdmin(){
+        if(Auth::user()->role_id != 0){
+            if($this->role->name  == "administrator" && $this->is_active == 1 ){
+
+                return true;
+            }
+
+            return false;
+
+          }
+        }
+
+
+        public function posts(){
+            return $this->hasMany('App\Models\Post','user_id');
+        }
+
 
 }

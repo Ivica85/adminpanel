@@ -8,7 +8,9 @@ use App\Models\Photo;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
 use Symfony\Component\Console\Input\Input;
 
 
@@ -49,6 +51,7 @@ class AdminUsersController extends Controller
             $input = $request->except('password');
         }else{
             $input = $request->all();
+            $input['password'] = bcrypt($request->password);
         }
 
 
@@ -104,7 +107,17 @@ class AdminUsersController extends Controller
     {
 
         $user = User::find($id);
-        $input = $request->all();
+
+
+        if(trim($request->password) == ''){
+            $input = $request->except('password');
+        } else{
+            $input = $request->all();
+            $input['password'] = bcrypt($request->password);
+        }
+
+
+
 
         if($file = $request->photo_id){
             $name = time().$file->getClientOriginalName($file);
@@ -113,7 +126,11 @@ class AdminUsersController extends Controller
             $input['photo_id'] = $photo->id;
         }
 
+        $request->validate([
+            'email' => 'required|email|unique:users,email,'.$user->id,
+        ]);
         $user->update($input);
+        Session::flash('updated_user',"The user has been updated");
         return redirect('admin/users');
 
     }
@@ -126,6 +143,14 @@ class AdminUsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        if($user->photo_id){
+            unlink(public_path() . $user->photo->file);
+        }
+
+        $user->delete();
+        Session::flash('deleted_user','The user has been deleted');
+        return redirect('/admin/users');
+
     }
 }

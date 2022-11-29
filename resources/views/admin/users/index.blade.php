@@ -7,6 +7,13 @@
 
 @section('content')
 
+    @if(Session::has('deleted_user'))
+        <p class="bg-danger">{{session('deleted_user')}}</p>
+    @elseif(Session::has('updated_user'))
+        <p class="bg-success">{{session('updated_user')}}</p>
+
+    @endif
+
     <h1>Users</h1>
 
 
@@ -33,7 +40,7 @@
 
                 <tr>
                     <td>{{$user->id}}</td>
-                    <td> <img height="50" src="{{$user->photo ? $user->photo->file : '/images/1669209988placeholder.jpg'}}" alt="no picture" ></td>
+                    <td> <img height="50" src="{{$user->photo ? $user->photo->file : 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'}}" alt="no picture" ></td>
                     <td><a href="{{route('users.edit',$user->id)}}">{{$user->name}}</a></td>
                     <td>{{$user->email}}</td>
                     <td>{{$user->role ? $user->role->name : 'User has no role'}}</td>

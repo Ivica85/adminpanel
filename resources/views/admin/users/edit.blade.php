@@ -3,72 +3,114 @@
 
 
 
-
 @section('content')
+
 
     <h1>Edit User</h1>
 
+
     <div class="row">
 
+
         <div class="col-sm-3">
-            <img width=250 src="{{$user->photo ? $user->photo->file : '/images/1669209988placeholder.jpg'}}" alt="" class="img-responsive img-rounded">
+
+            <img width=250px src="{{$user->photo ? $user->photo->file : 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'}}" alt="no picture" >
+
         </div>
 
+
+
         <div class="col-sm-9">
-            <form action="{{route('users.update',$user->id)}}" method="POST" enctype="multipart/form-data">
+
+            <form method="POST" action="{{route('users.update',$user->id)}}" enctype='multipart/form-data' >
                 @csrf
-                @method('put')
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input value={{$user->name}}  class="form-control" type="text" name="name" id="name">
-                </div>
+                @method('PUT')
 
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input value={{$user->email}} class="form-control" type="text" name="email" id="email">
-                </div>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" name="name" value="{{$user->name}}" class="form-control">
+            </div>
 
-                <div class="form-group">
-                    <label for="role_id">Role</label>
-                    <select class="form-control" name="role_id">
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" name="email" value="{{$user->email}}" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="role_id">Role:</label>
+                <select class="form-control" name="role_id">
+                    <ul>
                         @foreach($roles as $role)
-                            <option value="{{$role->id}}" {{$user->role_id == $role->id ? 'selected' : ''}}>{{$role->name}}</option>
+                            <li>
+                                <option value="{{$role->id}}" {{$user->role_id == $role->id ? 'selected':''}}>{{$role->name}}</option>
+                            </li>
                         @endforeach
-                    </select>
-                </div>
+                    </ul>
+                </select>
+            </div>
 
+
+            <div class="form-group">
+                <label for="is_active">Status:</label>
+                <select class="form-control" name="is_active">
+                    <option value="1" {{$user->is_active == 1 ? 'selected' : ''}}>Active</option>
+                    <option value="0" {{$user->is_active == 0 ? 'selected' : ''}}>Not Active</option>
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+                <label for="photo_id">File:</label>
+                <input type="file" name="photo_id" >
+            </div>
+
+
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" name="password" class="form-control">
+            </div>
+
+
+
+
+
+            <div class="form-group">
+
+                <button name="submit" class="btn btn-primary col-sm-6">Update user</button>
+            </div>
+
+            </form>
+
+
+            <form method="POST" action="{{route('users.destroy',$user->id)}}">
+                @csrf
+                @method('delete')
                 <div class="form-group">
-                    <label for="is_active">Status</label>
-                    <select class="form-control" name="is_active">
-                        <option value="1" {{$user->is_active == 1 ? 'selected':''}}>Active</option>
-                        <option value="0" {{$user->is_active == 0 ? 'selected':''}}>Not Active</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="photo_id">File</label>
-                    <input type="file" name="photo_id" id="photo_id">
-                </div>
-
-
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input class="form-control" type="password" name="password" id="password">
-                </div>
-
-
-                <div class="form-group">
-                    <button class="btn btn-primary" type="submit">Create Post</button>
+                    <button name="submit" class="btn btn-danger col-sm-6">Delete user</button>
                 </div>
             </form>
 
+
+
         </div>
 
     </div>
 
+
+
     <div class="row">
+
         @include('includes.form_error')
+
+
     </div>
 
 
+
+
+
 @stop
+
