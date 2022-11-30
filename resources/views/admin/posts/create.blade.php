@@ -17,9 +17,10 @@
         <div class="form-group">
             <label for="category">Category</label>
             <select class="form-control" name="category_id" id="category_id">
-                <option value="0">Horror game</option>
-                <option value="1">Psychological game</option>
-                <option value="2">Adventure game</option>
+                <option value="">Choose categories</option>
+                @foreach($categories as $category)
+                    <option value="{{$category->id}}">{{$category->name}}</option>
+                @endforeach
             </select>
         </div>
 
