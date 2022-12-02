@@ -66,7 +66,7 @@ class AdminUsersController extends Controller
 
 
         User::create($input);
-
+        Session::flash('created_user',"The user has been created");
         return redirect('admin/users');
 
     }
