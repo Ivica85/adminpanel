@@ -18,10 +18,21 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Update Category</button>
+                <button type="submit" class="btn btn-primary col-sm-6">Update Category</button>
+            </div>
+        </form>
+
+        <form method="POST" action="{{route('categories.destroy',$category->id)}}">
+            @csrf
+            @method('delete')
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-danger col-sm-6">Delete Category</button>
             </div>
         </form>
 
     </div>
+
+
 
 @stop
