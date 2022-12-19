@@ -24,7 +24,7 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-
+    @yield('styles')
 
 
 </head>
@@ -52,13 +52,15 @@
 
 
             <!-- /.dropdown -->
+            <img height="44" src="{{Auth::user()->photo->file}}" alt="slika">
             <li class="dropdown">
+
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
 {{--                    <i class="fa fa-user fa-fw"></i>--}}
                     {{Auth::user()->name}} <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                    <li><a href="{{route('users.edit',Auth::user()->id)}}"><i class="fa fa-user fa-fw"></i> User Profile</a>
                     </li>
                     <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                     </li>
@@ -151,7 +153,9 @@
                             <li>
                                 <a href="{{route('posts.create')}}">Create Post</a>
                             </li>
-
+                            <li>
+                                <a href="{{route('comments.index')}}">All comments</a>
+                            </li>
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
@@ -177,20 +181,16 @@
                         <a href="#"><i class="fa fa-wrench fa-fw"></i>Media<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="/media">All Media</a>
+                                <a href="{{route('media.index')}}">All Media</a>
                             </li>
 
                             <li>
-                                <a href="">Upload Media</a>
+                                <a href="{{route('media.create')}}">Upload Media</a>
                             </li>
 
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
-
-
-
-
 
 
 
@@ -273,7 +273,7 @@
                                 <a class="active" href="blank.html">Blank Page</a>
                             </li>
                             <li>
-                                <a href="login.html">Login Page</a>
+                                <a href="{{route('login')}}">Login Page</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
@@ -357,7 +357,8 @@
 <script src="{{asset('js/libs.js')}}"></script>
 
 
-@yield('footer')
+
+@yield('scripts')
 
 
 

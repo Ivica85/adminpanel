@@ -70,7 +70,8 @@ class AdminPostsController extends Controller
      */
     public function show($id)
     {
-        //
+
+
     }
 
     /**
@@ -107,7 +108,15 @@ class AdminPostsController extends Controller
         }
 
         $user = Auth::user();
-        $user->posts()->whereId($id)->first()->update($input);
+        $post = Post::find($id);
+        if($user->id == $post->user_id){
+
+            $user->posts()->whereId($id)->first()->update($input);
+        }else{
+            Session::flash('update_error',"Update error. This post is not belonging to you.");
+            return redirect('admin/posts');
+        }
+
 
         Session::flash('updated_post',"The post has been updated");
         return redirect('admin/posts');
@@ -131,5 +140,13 @@ class AdminPostsController extends Controller
         $post->delete();
 
         return redirect('admin/posts');
+    }
+
+    public function post($id){
+
+        $post = Post::findOrFail($id);
+        $comments = $post->comments()->where('is_active',1)->get();
+
+        return view('post',compact('post','comments'));
     }
 }

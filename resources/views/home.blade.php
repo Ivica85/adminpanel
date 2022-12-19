@@ -1,10 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-
 <div class="container">
     @if(Auth::user()->isAdmin())
-    <h3 class="text-center"><a href="{{route('admin.index')}}">Admin page</a></h3>
+        <h3 class="text-center"><a href="{{route('admin.index')}}">Admin page</a></h3>
     @endif
     <div class="row justify-content-center">
         <div class="col-md-8">

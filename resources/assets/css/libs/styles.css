@@ -35,3 +35,15 @@
 .toppad
 {margin-top:20px;
 }
+
+#admin-page{
+    padding-top:0px;
+}
+
+#nested-comment{
+    margin-top:60px;
+}
+
+.comment-reply{
+    display: none;
+}

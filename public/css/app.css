@@ -10819,3 +10819,14 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+#admin-page{
+    padding-top:0px;
+}
+
+#nested-comment{
+    margin-top:60px;
+}
+
+.comment-reply{
+    display: none;
+}
