@@ -23,7 +23,9 @@
     <hr>
 
     <!-- Preview Image -->
-    <img class="img-responsive" src="{{$post->photo->file}}" alt="">
+    @if($post->photo_id != null)
+        <img class="img-responsive" src="{{$post->photo->file}}" alt="slika">
+    @endif
 
     <hr>
 
@@ -117,7 +119,7 @@
                     <!-- Nested Comment -->
                             <div id='nested-comment' class="media">
                                 <a class="pull-left" href="#">
-                                    <img height="64" class="media-object" src="{{$reply->photo}}" alt="no picture">
+                                    <img height="64" class="media-object" src="{{$reply->photo}}" alt="">
                                 </a>
                                 <div class="media-body">
                                     <h4 class="media-heading">{{$reply->author}}

@@ -47,12 +47,15 @@
         <!-- /.navbar-header -->
 
 
-
+        {{--                         Picture--}}
         <ul class="nav navbar-top-links navbar-right">
+            @if(Auth()->user()->photo_id != null )
+                <img height="44" src="{{Auth()->user()->photo->file}}" alt="slika">
 
+        @endif
 
             <!-- /.dropdown -->
-            <img height="44" src="{{Auth::user()->photo->file}}" alt="slika">
+
             <li class="dropdown">
 
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">

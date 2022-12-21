@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UsersEditRequest;
 use App\Http\Requests\UsersRequest;
+use App\Models\Comment;
+use App\Models\CommentReply;
 use App\Models\Photo;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -126,10 +128,36 @@ class AdminUsersController extends Controller
             $input['photo_id'] = $photo->id;
         }
 
-        $request->validate([
-            'email' => 'required|email|unique:users,email,'.$user->id,
-        ]);
+//        $request->validate([
+//            'email' => 'required|email|unique:users,email,'.$user->id,
+//        ]);
+//
         $user->update($input);
+
+        //Comments
+        $comments = Comment::all();
+
+        foreach($comments as $comment){
+            if( $user->email == $comment->email){
+                $comment->author = $user->name;
+                $comment->photo = $user->photo->file;
+                $comment->update();
+            }
+
+        }
+
+        //Replies
+        $replies = CommentReply::all();
+
+        foreach($replies as $reply){
+            if( $user->email == $reply->email){
+                $reply->author = $user->name;
+                $reply->photo = $user->photo->file;
+                $reply->update();
+            }
+
+        }
+
         Session::flash('updated_user',"The user has been updated");
         return redirect('admin/users');
 

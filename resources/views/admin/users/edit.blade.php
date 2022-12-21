@@ -31,10 +31,15 @@
                     <input type="text" name="name" value="{{$user->name}}" class="form-control">
                 </div>
 
+{{--                <div class="form-group">--}}
+{{--                    <label for="email">Email:</label>--}}
+{{--                    <input type="text" name="email" value="{{$user->email}}" class="form-control">--}}
+{{--                </div>--}}
                 <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="text" name="email" value="{{$user->email}}" class="form-control">
+                    <label style="color:green" for="email">Email cannot be changed</label>
+                    <p class="form-control">{{$user->email}}</p>
                 </div>
+
 
                 <div class="form-group">
                     <label for="role_id">Role:</label>

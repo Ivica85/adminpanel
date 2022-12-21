@@ -56,7 +56,13 @@
                             </li>
                         @endif
                     @else
-                        <img height="44" src="{{Auth::user()->photo->file}}" alt="slika">
+
+{{--                         Picture--}}
+                        @if(Auth()->user()->photo_id != null )
+                            <img height="44" src="{{Auth()->user()->photo->file}}" alt="slika">
+                        @endif
+
+
                         <li class="nav-item dropdown">
 
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Photo;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -101,6 +103,23 @@ class AdminMediasController extends Controller
         unlink(public_path().$photo->file);
 
         $photo->delete();
+        $users = User::all();
+        foreach($users as $user){
+            if($user->photo_id == $photo->id){
+                $user->photo_id = null;
+                $user->update();
+            }
+
+        }
+
+        $posts = Post::all();
+        foreach($posts as $post){
+            if($post->photo_id == $photo->id){
+                $post->photo_id = null;
+                $post->update();
+            }
+
+        }
 
         Session::flash('deleted_media','The media file has been deleted');
 
