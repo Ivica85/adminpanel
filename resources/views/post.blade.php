@@ -74,7 +74,7 @@
             <!-- Comment -->
             <div class="media">
                 <a class="pull-left" href="#">
-                    <img height="64" class="media-object" src="{{$comment->photo}}" alt="">
+                    <img height="44" height="30" class="comment-picture" src="{{$comment->photo}}" alt="">
                 </a>
                 <div class="media-body">
                     <h4 class="media-heading">{{$comment->author}}
@@ -119,7 +119,7 @@
                     <!-- Nested Comment -->
                             <div id='nested-comment' class="media">
                                 <a class="pull-left" href="#">
-                                    <img height="64" class="media-object" src="{{$reply->photo}}" alt="">
+                                    <img height="44" height="30" class="comment-picture" src="{{$comment->photo}}" alt="">
                                 </a>
                                 <div class="media-body">
                                     <h4 class="media-heading">{{$reply->author}}

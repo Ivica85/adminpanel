@@ -49,9 +49,13 @@ class CommentRepliesController extends Controller
             'comment_id' => $request->comment_id,
             'author'  => $user->name,
             'email'   => $user->email,
-            'photo'   => $user->photo->file,
             'body'    => $request->body
         ];
+
+        if(Auth()->user()->photo_id != null ){
+            $data['photo'] = $user->photo->file;
+        }
+
 
         CommentReply::create($data);
 

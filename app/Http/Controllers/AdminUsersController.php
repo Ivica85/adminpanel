@@ -10,6 +10,7 @@ use App\Models\Photo;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
@@ -111,56 +112,65 @@ class AdminUsersController extends Controller
         $user = User::find($id);
 
 
-        if(trim($request->password) == ''){
-            $input = $request->except('password');
-        } else{
-            $input = $request->all();
-            $input['password'] = bcrypt($request->password);
-        }
 
+        if(!$user->isAdmin() || auth::id() == $user->id){
 
-
-
-        if($file = $request->photo_id){
-            $name = time().$file->getClientOriginalName($file);
-            $file->move('images',$name);
-            $photo = Photo::create(['file'=>$name]);
-            $input['photo_id'] = $photo->id;
-        }
-
-//        $request->validate([
-//            'email' => 'required|email|unique:users,email,'.$user->id,
-//        ]);
-//
-        $user->update($input);
-
-        //Comments
-        $comments = Comment::all();
-
-        foreach($comments as $comment){
-            if( $user->email == $comment->email){
-                $comment->author = $user->name;
-                $comment->photo = $user->photo->file;
-                $comment->update();
+            if(trim($request->password) == ''){
+                $input = $request->except('password');
+            } else{
+                $input = $request->all();
+                $input['password'] = bcrypt($request->password);
             }
 
-        }
 
-        //Replies
-        $replies = CommentReply::all();
 
-        foreach($replies as $reply){
-            if( $user->email == $reply->email){
-                $reply->author = $user->name;
-                $reply->photo = $user->photo->file;
-                $reply->update();
+
+            if($file = $request->photo_id){
+                $name = time().$file->getClientOriginalName($file);
+                $file->move('images',$name);
+                $photo = Photo::create(['file'=>$name]);
+                $input['photo_id'] = $photo->id;
             }
 
-        }
 
-        Session::flash('updated_user',"The user has been updated");
+            //        $request->validate([
+            //            'email' => 'required|email|unique:users,email,'.$user->id,
+            //        ]);
+
+            $user->update($input);
+
+
+            //Comments
+            $comments = Comment::all();
+
+            foreach($comments as $comment){
+                if( $user->email == $comment->email){
+                    $comment->author = $user->name;
+                    $user->photo_id != null ? $comment->photo = $user->photo->file : $comment->photo = "";
+                    $comment->update();
+                }
+
+            }
+
+            //Replies
+            $replies = CommentReply::all();
+
+            foreach($replies as $reply){
+                if( $user->email == $reply->email){
+                    $reply->author = $user->name;
+                    $user->photo_id != null ? $reply->photo = $user->photo->file : $reply->photo = "";
+                    $reply->update();
+                }
+
+            }
+
+            Session::flash('updated_user',"The user has been updated");
+
+
+        }else{
+            Session::flash('updated_user_error',"This user is an admin and you don't have permission to update.");
+        }
         return redirect('admin/users');
-
     }
 
     /**
@@ -172,12 +182,19 @@ class AdminUsersController extends Controller
     public function destroy($id)
     {
         $user = User::findOrFail($id);
-        if($user->photo_id){
-            unlink(public_path() . $user->photo->file);
-        }
 
-        $user->delete();
-        Session::flash('deleted_user','The user has been deleted');
+        if(!$user->isAdmin() || auth::id() == $user->id){
+            if ($user->photo_id) {
+                unlink(public_path() . $user->photo->file);
+                $user->photo->delete();
+            }
+            $user->delete();
+
+            Session::flash('deleted_user', 'The user has been deleted');
+
+        }else{
+            Session::flash('deleted_user_error',"This user is an admin and you don't have permission to delete.");
+        }
         return redirect('/admin/users');
 
     }

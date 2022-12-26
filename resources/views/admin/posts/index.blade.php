@@ -15,6 +15,8 @@
         <p class="bg-danger">{{session('update_error')}}</p>
     @elseif(Session::has('created_post'))
         <p class="bg-success">{{session('created_post')}}</p>
+    @elseif(Session::has('deleted_error'))
+        <p class="bg-danger">{{session('deleted_error')}}</p>
 
 
     @endif
@@ -47,7 +49,7 @@
                       <td>{{$post->category ? $post->category->name : 'Uncategorized'}}</td>
                       <td>{{$post->title}}</td>
                       <td>{{Illuminate\Support\Str::limit($post->body, 25)}}</td>
-                      <td><a href="{{route('home.post',$post->id)}}">View post</a></td>
+                      <td><a href="{{route('home.post',[$post->id,$post->slug])}}">View post</a></td>
                       <td><a href="{{route('comments.show',$post->id)}}">View comments</a></td>
                       <td>{{$post->created_at->diffForHumans()}}</td>
                       <td>{{$post->updated_at->diffForHumans()}}</td>
@@ -57,5 +59,10 @@
         </tbody>
     </table>
 
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-5 ">
+            {{$posts->links('pagination::bootstrap-4')}}
+        </div>
+    </div>
 
 @stop

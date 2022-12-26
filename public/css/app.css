@@ -10830,3 +10830,14 @@ textarea.form-control-lg {
 .comment-reply{
     display: none;
 }
+
+.comment-picture{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #ffffff; /* Old browsers */
+    background: -moz-radial-gradient(center, ellipse cover, #ffffff 17%, #ff0a0a 19%, #ff2828 40%, #000000 41%);
+    background: -webkit-radial-gradient(center, ellipse cover, #ffffff 17%,#ff0a0a 19%,#ff2828 40%,#000000 41%);
+    background: radial-gradient(ellipse at center, #ffffff 17%,#ff0a0a 19%,#ff2828 40%,#000000 41%);
+
+}

@@ -19,7 +19,7 @@ class AdminPostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::paginate(3);
         return view('admin.posts.index',compact('posts'));
     }
 
@@ -113,7 +113,7 @@ class AdminPostsController extends Controller
 
             $user->posts()->whereId($id)->first()->update($input);
         }else{
-            Session::flash('update_error',"Update error. This post is not belonging to you.");
+            Session::flash('update_error',"Error. This post is not belonging to you.");
             return redirect('admin/posts');
         }
 
@@ -131,13 +131,19 @@ class AdminPostsController extends Controller
     public function destroy($id)
     {
         $post = Post::findOrFail($id);
+        $user = Auth::user();
 
-        if($post->photo_id){
-            unlink(public_path().$post->photo->file);
+        if($user->id == $post->user_id){
+            if($post->photo_id){
+                unlink(public_path().$post->photo->file);
+            }
+            Session::flash('deleted_post','The post has been deleted');
+            $post->delete();
+        }else{
+            Session::flash('deleted_error',"Error. This post is not belonging to you.");
+
         }
 
-        Session::flash('deleted_post','The post has been deleted');
-        $post->delete();
 
         return redirect('admin/posts');
     }
