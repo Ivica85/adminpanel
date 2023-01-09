@@ -26,7 +26,6 @@
     @if($post->photo_id != null)
         <img class="img-responsive" src="{{$post->photo->file}}" alt="slika">
     @endif
-
     <hr>
 
     <!-- Post Content -->
@@ -45,7 +44,7 @@
 
 
     @if(Auth::check())
-    <!-- Comments Form -->
+        <!-- Comments Form -->
         <div class="well">
             <h4>Leave a Comment:</h4>
             <form action="{{route('comments.store')}}" method="POST" >
@@ -67,14 +66,17 @@
 
     <!-- Posted Comments -->
 
-@if(count($comments) > 0)
+    @if(count($comments) > 0)
 
         @foreach($comments as $comment)
 
             <!-- Comment -->
             <div class="media">
+
                 <a class="pull-left" href="#">
-                    <img height="44" height="30" class="comment-picture" src="{{$comment->photo}}" alt="">
+                    @if($comment->photo != null)
+                        <img class="comment-picture" src="{{$comment->photo}}" alt="">
+                    @endif
                 </a>
                 <div class="media-body">
                     <h4 class="media-heading">{{$comment->author}}
@@ -116,42 +118,44 @@
                         @if($reply->is_active == 1)
 
 
-                    <!-- Nested Comment -->
-                            <div id='nested-comment' class="media">
-                                <a class="pull-left" href="#">
-                                    <img height="44" height="30" class="comment-picture" src="{{$comment->photo}}" alt="">
-                                </a>
-                                <div class="media-body">
-                                    <h4 class="media-heading">{{$reply->author}}
-                                        <small>{{$reply->created_at->diffForHumans()}}</small>
-                                    </h4>
-                                  <p>{{$reply->body}}</p>
+                            <!-- Nested Comment -->
+                                <div id='nested-comment' class="media">
+                                    <a class="pull-left" href="#">
+                                        @if($reply->photo != null)
+                                            <img height="24" height="10" class="comment-picture" src="{{$reply->photo}}" alt="">
+                                        @endif
+                                    </a>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">{{$reply->author}}
+                                            <small>{{$reply->created_at->diffForHumans()}}</small>
+                                        </h4>
+                                        <p>{{$reply->body}}</p>
+                                    </div>
+
+
+                                    <!-- End Nested Comment -->
+
+
                                 </div>
 
 
-                    <!-- End Nested Comment -->
 
-
-                            </div>
-
-
-
-                                @endif
-                             @endforeach
+                            @endif
+                        @endforeach
 
 
 
-                       @endif
+                    @endif
 
 
                 </div>
             </div>
         @endforeach
-@else
-    <h1 class="text-center">No Comments</h1>
+    @else
+        <h1 class="text-center">No Comments</h1>
 
 
-@endif
+    @endif
 
 
 @stop

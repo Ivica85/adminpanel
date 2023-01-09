@@ -100,17 +100,16 @@ class AdminPostsController extends Controller
 
         $input = $request->all();
 
-        if($file = $request->file('photo_id')){
-            $name = time().$file->getClientOriginalName($file);
-            $file->move('images',$name);
-            $photo = Photo::create(['file'=>$name]);
-            $input['photo_id'] = $photo->id;
-        }
-
         $user = Auth::user();
         $post = Post::find($id);
-        if($user->id == $post->user_id){
 
+        if($user->id == $post->user_id){
+            if($file = $request->file('photo_id')){
+                $name = time().$file->getClientOriginalName($file);
+                $file->move('images',$name);
+                $photo = Photo::create(['file'=>$name]);
+                $input['photo_id'] = $photo->id;
+            }
             $user->posts()->whereId($id)->first()->update($input);
         }else{
             Session::flash('update_error',"Error. This post is not belonging to you.");

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
+use App\Models\CommentReply;
 use App\Models\Photo;
 use App\Models\Post;
 use App\Models\User;
@@ -97,34 +99,72 @@ class AdminMediasController extends Controller
      */
     public function destroy($id)
     {
-        $photo = Photo::findOrFail($id);
+
+    }
 
 
-        if(file_exists(public_path() . $photo->file)){
-            unlink(public_path() . $photo->file);
-        }
+    public function deleteMedia(Request $request){
 
-        $photo->delete();
-        $users = User::all();
-        foreach($users as $user){
-            if($user->photo_id == $photo->id){
-                $user->photo_id = null;
-                $user->update();
+
+        if(isset($request->delete_all) && !empty($request->checkBoxArray)){
+            $photos = Photo::findOrFail($request->checkBoxArray);
+
+
+            foreach($photos as $photo){
+                if(file_exists(public_path() . $photo->file)){
+                    unlink(public_path() . $photo->file);
+                }
+                $photo->delete();
+
+                $users = User::all();
+                foreach($users as $user){
+                    if($user->photo_id == $photo->id){
+                        $user->photo_id = null;
+                        $user->update();
+                    }
+
+                }
+
+                $posts = Post::all();
+                foreach($posts as $post){
+                    if($post->photo_id == $photo->id){
+                        $post->photo_id = null;
+                        $post->update();
+                    }
+
+                }
+
+                $comments = Comment::all();
+                foreach($comments as $comment){
+                    if($comment->photo == $photo->file){
+                        $comment->photo = null;
+                        $comment->update();
+                    }
+
+                }
+
+                $replies = CommentReply::all();
+                foreach($replies as $reply){
+                    if($reply->photo == $photo->file){
+                        $reply->photo = null;
+                        $reply->update();
+                    }
+
+                }
+
+
             }
 
+
+
+            Session::flash('checkboxed_media_deleted','The media file has been deleted');
+
+            return redirect('/admin/media');
+        }else{
+            return back();
         }
 
-        $posts = Post::all();
-        foreach($posts as $post){
-            if($post->photo_id == $photo->id){
-                $post->photo_id = null;
-                $post->update();
-            }
 
-        }
 
-        Session::flash('deleted_media','The media file has been deleted');
-
-        return redirect('/admin/media');
     }
 }

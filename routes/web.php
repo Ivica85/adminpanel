@@ -35,11 +35,10 @@ Route::group(['middleware'=>'admin'],function(){
     Route::resource('admin/users','App\Http\Controllers\AdminUsersController');
     Route::resource('admin/posts','App\Http\Controllers\AdminPostsController');
     Route::resource('admin/categories','App\Http\Controllers\AdminCategoriesController');
-    Route::resource('admin/media','App\Http\Controllers\AdminMediasController');
-
     Route::resource('admin/comments','App\Http\Controllers\PostCommentsController');
     Route::resource('admin/comment/replies','App\Http\Controllers\CommentRepliesController');
-
+    Route::resource('admin/media','App\Http\Controllers\AdminMediasController');
+    Route::delete('delete/media','App\Http\Controllers\AdminMediasController@deleteMedia')->name('delete.media');
 });
 
 
