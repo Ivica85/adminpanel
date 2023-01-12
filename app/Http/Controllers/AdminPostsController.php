@@ -104,7 +104,13 @@ class AdminPostsController extends Controller
         $post = Post::find($id);
 
         if($user->id == $post->user_id){
+
             if($file = $request->file('photo_id')){
+                if($post->photo_id){
+                    unlink(public_path().$post->photo->file);
+                    $post->photo->delete();
+                }
+
                 $name = time().$file->getClientOriginalName($file);
                 $file->move('images',$name);
                 $photo = Photo::create(['file'=>$name]);
@@ -132,16 +138,14 @@ class AdminPostsController extends Controller
         $post = Post::findOrFail($id);
         $user = Auth::user();
 
-        if($user->id == $post->user_id){
+
             if($post->photo_id){
                 unlink(public_path().$post->photo->file);
+                $post->photo->delete();
             }
             Session::flash('deleted_post','The post has been deleted');
             $post->delete();
-        }else{
-            Session::flash('deleted_error',"Error. This post is not belonging to you.");
 
-        }
 
 
         return redirect('admin/posts');

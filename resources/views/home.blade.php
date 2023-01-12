@@ -4,6 +4,9 @@
 <div class="container">
     @if(Auth::user()->isAdmin())
         <h3 class="text-center"><a href="{{route('admin.index')}}">Admin page</a></h3>
+    @else
+        <h3 class="text-center"><a style="color:red" href="{{route('admin.index')}}">Access is for active administrators only</a></h3>
+
     @endif
     <div class="row justify-content-center">
         <div class="col-md-8">

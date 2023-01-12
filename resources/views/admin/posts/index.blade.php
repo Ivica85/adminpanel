@@ -15,10 +15,6 @@
         <p class="bg-danger">{{session('update_error')}}</p>
     @elseif(Session::has('created_post'))
         <p class="bg-success">{{session('created_post')}}</p>
-    @elseif(Session::has('deleted_error'))
-        <p class="bg-danger">{{session('deleted_error')}}</p>
-
-
     @endif
 
     <h1>Posts</h1>

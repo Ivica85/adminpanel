@@ -113,7 +113,7 @@ class AdminUsersController extends Controller
 
 
 
-        if(!$user->isAdmin() || auth::id() == $user->id){
+        if($user->role_id == 0 || !$user->isAdmin() || auth::id() == $user->id){
 
             if(trim($request->password) == ''){
                 $input = $request->except('password');
@@ -183,7 +183,7 @@ class AdminUsersController extends Controller
     {
         $user = User::findOrFail($id);
 
-        if(!$user->isAdmin() || auth::id() == $user->id){
+        if($user->role_id == 0 || !$user->isAdmin() || auth::id() == $user->id){
             if ($user->photo_id) {
                 unlink(public_path() . $user->photo->file);
                 $user->photo->delete();
