@@ -7,6 +7,7 @@ use App\Http\Requests\UsersRequest;
 use App\Models\Comment;
 use App\Models\CommentReply;
 use App\Models\Photo;
+use App\Models\Post;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -26,7 +27,7 @@ class AdminUsersController extends Controller
      */
     public function index()
     {
-       $users = User::all();
+        $users = User::all();
         return view('admin.users.index', compact('users'));
     }
 
@@ -94,9 +95,9 @@ class AdminUsersController extends Controller
     public function edit($id)
     {
 
-         $user = User::findOrFail($id);
-         $roles = Role::all();
-         return view('admin.users.edit',compact(['user','roles']));
+        $user = User::findOrFail($id);
+        $roles = Role::all();
+        return view('admin.users.edit',compact(['user','roles']));
     }
 
     /**
@@ -182,11 +183,27 @@ class AdminUsersController extends Controller
     public function destroy($id)
     {
         $user = User::findOrFail($id);
+        $comments = Comment::where("author",$user->name)->get();
+        $commentReplies = CommentReply::where("author",$user->name)->get();
+        $posts = Post::where("user_id",$user->id)->get();
 
         if($user->role_id == 0 || !$user->isAdmin() || auth::id() == $user->id){
             if ($user->photo_id) {
                 unlink(public_path() . $user->photo->file);
                 $user->photo->delete();
+
+            }
+
+            foreach($posts as $post){
+                unlink(public_path() . $post->photo->file);
+                $post->photo->delete();
+            }
+
+            foreach($comments as $comment){
+                $comment->delete();
+            }
+            foreach( $commentReplies as $comment){
+                $comment->delete();
             }
             $user->delete();
 

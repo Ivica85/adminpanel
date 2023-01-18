@@ -21,7 +21,7 @@ class PostCommentsController extends Controller
         //
         $comments = Comment::all();
 
-       return view('admin.comments.index',compact('comments'));
+        return view('admin.comments.index',compact('comments'));
     }
 
     /**
@@ -29,20 +29,8 @@ class PostCommentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(CommentCreateRequest $request)
-    {
-
+    public function createComment(CommentCreateRequest $request){
         $user = Auth::user();
         $data = [
             'post_id' => $request->post_id,
@@ -60,7 +48,6 @@ class PostCommentsController extends Controller
         Session::flash('comment_message','Your message has been submitted and is waiting moderation');
 
         return redirect()->back();
-
     }
 
     /**
@@ -97,12 +84,12 @@ class PostCommentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-       $comment = Comment::findOrFail($id);
-       $input = $request->all();
-       $comment->update($input);
+        $comment = Comment::findOrFail($id);
+        $input = $request->all();
+        $comment->update($input);
 
 
-       return redirect('admin/comments');
+        return redirect('admin/comments');
 
     }
 

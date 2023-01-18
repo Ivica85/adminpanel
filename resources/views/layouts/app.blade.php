@@ -59,7 +59,9 @@
 
 {{--                         Picture--}}
                         @if(Auth()->user()->photo_id != null )
-                            <img height="44" src="{{Auth()->user()->photo->file}}" alt="slika">
+                            <img height="44" src="{{Auth()->user()->photo->file}}" alt="">
+
+
                         @endif
 
 

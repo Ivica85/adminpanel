@@ -15,10 +15,6 @@
         <p class="bg-danger">{{session('update_error')}}</p>
     @elseif(Session::has('created_post'))
         <p class="bg-success">{{session('created_post')}}</p>
-    @elseif(Session::has('deleted_error'))
-        <p class="bg-danger">{{session('deleted_error')}}</p>
-
-
     @endif
 
     <h1>Posts</h1>
@@ -32,7 +28,6 @@
             <th>Title</th>
             <th>Author</th>
             <th>Category</th>
-
             <th>Post link</th>
             <th>Comments</th>
             <th>Created at</th>
@@ -40,28 +35,30 @@
         </tr>
         </thead>
         <tbody>
-        @if($posts)
-            @foreach($posts as $post)
-                <tr>
-                    <td>{{$post->id}}</td>
-                    <td> <img height="50" src="{{$post->photo ? $post->photo->file : 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'}}" alt="no picture" ></td>
-                    <td><a href="{{route('posts.edit',$post->id)}}">{{$post->title}}</a></td>
-                    <td>{{$post->user->name}}</td>
-                    <td>{{$post->category ? $post->category->name : 'Uncategorized'}}</td>
-                    <td><a href="{{route('home.post',['id'=>$post->id,$post->slug])}}">View post</a></td>
-                    <td><a href="{{route('comments.show',$post->id)}}">View comments</a></td>
-                    <td>{{$post->created_at->diffForHumans()}}</td>
-                    <td>{{$post->updated_at->diffForHumans()}}</td>
-                </tr>
-            @endforeach
-        @endif
+          @if($posts)
+              @foreach($posts as $post)
+                  <tr>
+                      <td>{{$post->id}}</td>
+                      <td> <img height="50" src="{{$post->photo ? $post->photo->file : 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'}}" alt="no picture" ></td>
+                      <td><a href="{{route('posts.edit',$post->id)}}">{{$post->title}}</a></td>
+                      <td>{{$post->user->name}}</td>
+                      <td>{{$post->category ? $post->category->name : 'Uncategorized'}}</td>
+                      <td>{{$post->title}}</td>
+{{--                      <td>{{Illuminate\Support\Str::limit($post->body, 25)}}</td>--}}
+                      <td><a href="{{route('home.post',[$post->id,$post->slug])}}">View post</a></td>
+                      <td><a href="{{route('comments.show',$post->id)}}">View comments</a></td>
+                      <td>{{$post->created_at->diffForHumans()}}</td>
+                      <td>{{$post->updated_at->diffForHumans()}}</td>
+                  </tr>
+              @endforeach
+          @endif
         </tbody>
     </table>
-
 
     <div class="row">
         <div class="col-sm-6 col-sm-offset-5 ">
             {{$posts->links('pagination::bootstrap-4')}}
         </div>
     </div>
+
 @stop

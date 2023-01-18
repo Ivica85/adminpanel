@@ -1,10 +1,10 @@
-@extends('layouts.blog-post')
+@extends('layouts.blog-home')
 
 
 @section('content')
 
-
-
+    <div class="row">
+    <div class="col-md-8">
     <!-- Blog Post -->
 
     <!-- Title -->
@@ -24,12 +24,14 @@
 
     <!-- Preview Image -->
     @if($post->photo_id != null)
-        <img class="img-responsive" src="{{$post->photo->file}}" alt="slika">
+        <img class="img-responsive" width=500 height=400 src="{{$post->photo->file}}" alt="picture">
+     @else
+        <img class="img-responsive" width=500 height=400 src="{{$post->photoPlaceholder()}}"  alt="picture">
     @endif
     <hr>
 
     <!-- Post Content -->
-    <p class="lead">{!! nl2br($post->body) !!}</p>
+    <p>{!! nl2br($post->body) !!}</p>
 
     <hr>
 
@@ -47,7 +49,7 @@
         <!-- Comments Form -->
         <div class="well">
             <h4>Leave a Comment:</h4>
-            <form action="{{route('comments.store')}}" method="POST" >
+            <form action="{{route('createComment')}}" method="POST" >
                 @csrf
 
                 <input type="hidden" name="post_id" value="{{$post->id}}">
@@ -157,17 +159,26 @@
 
     @endif
 
+        <script src="{{asset('js/libs.js')}}"></script>
+        <script>
+
+            $(".comment-reply-container .toggle-reply").click(function(){
+                $(this).next().slideToggle("slow");
+            });
+        </script>
+
+        </div> <!-- col-md-6 -->
+
+        @include('includes.front_sidebar')
+
+
+    </div> <!-- row -->
 
 @stop
 
 @section('scripts')
 
-    <script>
 
-        $(".comment-reply-container .toggle-reply").click(function(){
-            $(this).next().slideToggle("slow");
-        });
-    </script>
 
 @stop
 

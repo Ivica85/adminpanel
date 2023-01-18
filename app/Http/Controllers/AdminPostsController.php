@@ -139,23 +139,16 @@ class AdminPostsController extends Controller
         $user = Auth::user();
 
 
-            if($post->photo_id){
-                unlink(public_path().$post->photo->file);
-                $post->photo->delete();
-            }
-            Session::flash('deleted_post','The post has been deleted');
-            $post->delete();
+        if($post->photo_id){
+            unlink(public_path().$post->photo->file);
+            $post->photo->delete();
+        }
+        Session::flash('deleted_post','The post has been deleted');
+        $post->delete();
 
 
 
         return redirect('admin/posts');
     }
 
-    public function post($id){
-
-        $post = Post::findOrFail($id);
-        $comments = $post->comments()->where('is_active',1)->get();
-
-        return view('post',compact('post','comments'));
-    }
 }
