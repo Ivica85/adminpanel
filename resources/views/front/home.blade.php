@@ -14,10 +14,10 @@
                 @foreach($posts as $post)
 
                     <h2>
-                        <a href="#">{{$post->title}}</a>
+                        {{$post->title}}
                     </h2>
                     <p class="lead">
-                        by <a href="index.php">{{$post->user->name}}</a>
+                        by {{$post->user->name}}
                     </p>
                     <p><span class="glyphicon glyphicon-time"></span>{{$post->created_at->diffForHumans()}}</p>
                     <hr>
@@ -38,6 +38,12 @@
 
         <!-- Pagination -->
 
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-5">
+                    {{$posts->links('pagination::bootstrap-4')}}
+                </div>
+
+            </div>
 
         </div>
 

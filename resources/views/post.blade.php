@@ -12,7 +12,7 @@
 
     <!-- Author -->
     <p class="lead">
-        by <a href="#">{{$post->user->name}}</a>
+        by {$post->user->name}}
     </p>
 
     <hr>
@@ -35,11 +35,7 @@
 
     <hr>
 
-    @if(Session::has('comment_message'))
-        <h4 class="bg-success" >{{Session('comment_message')}}</h4>
-    @elseif(Session::has('reply_message'))
-        <h4 class="bg-success" >{{Session('reply_message')}}</h4>
-    @endif
+
     <!-- Blog Comments -->
 
 
