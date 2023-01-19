@@ -12,7 +12,7 @@
 
     <!-- Author -->
     <p class="lead">
-        by {$post->user->name}}
+        by {{$post->user->name}}
     </p>
 
     <hr>

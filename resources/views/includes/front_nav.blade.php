@@ -17,10 +17,17 @@
                     <li><a style="color:red" href="{{route('admin.index')}}">Admin page for active administrators only</a></li>
                 @endif
             </ul>
+
+            {{Auth::user()->name}}
+
+
             <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="text-align: right;">Logout</a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+
+                <li><a href="{{ route('logout') }}" class="fa fa-sign-out" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        Logout
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
                 </li>

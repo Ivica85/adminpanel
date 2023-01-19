@@ -16,10 +16,10 @@
 
     <!-- /.dropdown -->
 
-    {{-- OVDE SLIKA --}}
+
 
     @if(Auth()->user()->photo_id != null )
-        <img height="44" src="{{Auth()->user()->photo->file}}" alt="">
+        <img height="44" class="comment-picture" src="{{Auth()->user()->photo->file}}" alt="">
     @endif
 
     <li class="dropdown">
@@ -33,7 +33,6 @@
             </li>
             <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
             </li>
-            <li class="divider"></li>
             <li><a href="{{ route('logout') }}" class="fa fa-sign-out" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     Logout
                 </a>
