@@ -195,8 +195,10 @@ class AdminUsersController extends Controller
             }
 
             foreach($posts as $post){
-                unlink(public_path() . $post->photo->file);
-                $post->photo->delete();
+                if ($post->photo_id) {
+                    unlink(public_path() . $post->photo->file);
+                    $post->photo->delete();
+                }
             }
 
             foreach($comments as $comment){

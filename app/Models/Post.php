@@ -41,4 +41,8 @@ class Post extends Model
         return $this->hasMany('App\Models\Comment','post_id');
     }
 
+    public function photoPlaceholder(){
+        return "https://via.placeholder.com/500x400";
+    }
+
 }
