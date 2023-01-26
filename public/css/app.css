@@ -10845,3 +10845,10 @@ textarea.form-control-lg {
     background: #ffffff; /* Old browsers */
 }
 
+.no-comments {
+    text-align: center;
+    color: #666;
+    font-size: 2em;
+    font-weight: bold;
+    margin-top: 50px;
+}

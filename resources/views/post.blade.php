@@ -150,7 +150,7 @@
             </div>
         @endforeach
     @else
-        <h1 class="text-center">No Comments</h1>
+            <h2 class="text-center" class="no-comments">No comments yet</h2>
 
 
     @endif
