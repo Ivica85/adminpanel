@@ -1,1 +1,4 @@
-This is an 'admin' panel project, containing posts, clarified and separated categories. They also include a content and media section, as well as comments that must be approved by administrators to be visible.
+This is an administrative panel project, which contains posts, sorted and separated by categories. The comment/reply system for posts, which must be approved in the admin panel before being displayed, has also been developed.
+There is also a content and media section.
+
+
